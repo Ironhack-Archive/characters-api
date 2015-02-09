@@ -1,0 +1,13 @@
+{
+  "name": "stuff",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Nizar Khalife Iglesias <khalifenizar@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.11.2"
+  }
+}
