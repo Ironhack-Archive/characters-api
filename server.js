@@ -18,6 +18,8 @@ var data = [
     }
 ];
 
+dataKeys = [ 'name', 'occupation', 'weapon' ];
+
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -37,9 +39,25 @@ app.post('/characters', function (req, res) {
         weapon: req.body.weapon,
         id: data.length + 2
     };
+
+    var badData = dataKeys.filter(function (key) {
+        return !character.name;
+    });
+
+    if (badData.length) {
+        res
+            .status(400)
+            .send({ error: 'Bad data: ' + badData.join(', ') })
+        ;
+        return;
+    }
+
     data.push(character);
 
-    res.send({ id: character.id });
+    res
+        .status(201)
+        .send({ id: character.id })
+    ;
 });
 
 
@@ -48,5 +66,4 @@ var server = app.listen(process.env.PORT || 3000, function () {
   var port = server.address().port
 
   console.log('App listening at http://%s:%s', host, port)
-
-})
+});
