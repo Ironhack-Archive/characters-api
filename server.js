@@ -1,3 +1,4 @@
+
 const bodyParser = require('body-parser');
 const express = require('express');
 
@@ -45,7 +46,7 @@ app.post('/characters', function (req, res) {
     };
 
     var badData = dataKeys.filter(function (key) {
-        return !character.name;
+        return !character[key];
     });
 
     if (badData.length) {
