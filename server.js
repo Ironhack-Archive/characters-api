@@ -42,7 +42,7 @@ app.post('/characters', function (req, res) {
         occupation: req.body.occupation,
         debt: req.body.debt || false,
         weapon: req.body.weapon,
-        id: data.length + 2
+        id: data.length + 1
     };
 
     var badData = dataKeys.filter(function (key) {
