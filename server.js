@@ -1,6 +1,7 @@
 
 const bodyParser = require('body-parser');
 const express = require('express');
+const multer = require('multer');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(multer().array());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
