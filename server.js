@@ -1,7 +1,7 @@
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const multer = require('multer');
+const _ = require('underscore')
 
 var app = express();
 
@@ -36,6 +36,25 @@ app.use(bodyParser.json());
 
 app.get('/characters', function (req, res) {
     res.send(data);
+});
+
+
+app.get('/characters/:id', function (req, res) {
+    var id = Number(req.params.id);
+    var character = data.filter(function(character){
+        return character.id === id;
+    })[0]
+
+    if (!character){
+        res
+            .status(404)
+            .send({error: "Character not found"})
+        ;
+    }
+    res
+        .status(201)
+        .send(character)
+    ;
 });
 
 app.post('/characters', function (req, res) {
