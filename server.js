@@ -30,8 +30,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(multer().array());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(multer().array());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/characters', function (req, res) {
@@ -56,6 +56,31 @@ app.get('/characters/:id', function (req, res) {
         .send(character)
     ;
 });
+
+app.patch('/characters/:id', function (req, res) {
+    var id = Number(req.params.id);
+    var index = _.findIndex(data, function(character){
+        return character.id === id;
+    })
+
+    if (index > -1) {
+        console.log(req.body)
+        data[index].name = req.body.name || data[index].name
+        data[index].occupation = req.body.occupation || data[index].occupation
+        data[index].weapon = req.body.weapon || data[index].weapon
+        data[index].debt = req.body.debt || data[index].debt
+        res
+            .status(201)
+            .send(data[index])
+        ;
+    } else {
+        res
+            .status(404)
+            .send("Character not found")
+    }
+   
+
+})
 
 app.post('/characters', function (req, res) {
     var character = {
