@@ -51,10 +51,7 @@ app.delete('/characters/:id', function(req, res){
     })
     if (charExists){
         data = new_data;
-        res
-            .status(201)
-            .send("Character has been successfully deleted")
-        ;
+        res.send("Character has been successfully deleted");
     } else {
         res
             .status(404)
@@ -75,10 +72,7 @@ app.get('/characters/:id', function (req, res) {
             .send({error: "Character not found"})
         ;
     }
-    res
-        .status(201)
-        .send(character)
-    ;
+    res.send(character);
 });
 
 app.patch('/characters/:id', function (req, res) {
@@ -93,17 +87,12 @@ app.patch('/characters/:id', function (req, res) {
         data[index].occupation = req.body.occupation || data[index].occupation
         data[index].weapon = req.body.weapon || data[index].weapon
         data[index].debt = req.body.debt || data[index].debt
-        res
-            .status(201)
-            .send(data[index])
-        ;
+        res.send(data[index]);
     } else {
         res
             .status(404)
             .send("Character not found")
     }
-   
-
 })
 
 app.post('/characters', function (req, res) {
