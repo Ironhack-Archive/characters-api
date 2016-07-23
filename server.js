@@ -38,6 +38,30 @@ app.get('/characters', function (req, res) {
     res.send(data);
 });
 
+app.delete('/characters/:id', function(req, res){
+    var id = Number(req.params.id);
+    var charExists = false;
+    var new_data = _.reject(data, function(character){
+        if (character.id === id){
+            charExists = true;
+            return character.id === id;
+        } else {
+            return false;
+        }
+    })
+    if (charExists){
+        data = new_data;
+        res
+            .status(201)
+            .send("Character has been successfully deleted")
+        ;
+    } else {
+        res
+            .status(404)
+            .send("Character not found")
+        ;
+    }
+})
 
 app.get('/characters/:id', function (req, res) {
     var id = Number(req.params.id);
