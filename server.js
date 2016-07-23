@@ -120,7 +120,7 @@ app.post('/characters', function (req, res) {
 
     res
         .status(201)
-        .send({ id: character.id })
+        .send(character)
     ;
 });
 
