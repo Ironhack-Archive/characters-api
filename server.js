@@ -1,7 +1,7 @@
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const multer = require('multer');
+const _ = require('underscore')
 
 var app = express();
 
@@ -30,13 +30,70 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(multer().array());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(multer().array());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/characters', function (req, res) {
     res.send(data);
 });
+
+app.delete('/characters/:id', function(req, res){
+    var id = Number(req.params.id);
+    var charExists = false;
+    var new_data = _.reject(data, function(character){
+        if (character.id === id){
+            charExists = true;
+            return character.id === id;
+        } else {
+            return false;
+        }
+    })
+    if (charExists){
+        data = new_data;
+        res.send("Character has been successfully deleted");
+    } else {
+        res
+            .status(404)
+            .send("Character not found")
+        ;
+    }
+})
+
+app.get('/characters/:id', function (req, res) {
+    var id = Number(req.params.id);
+    var character = data.filter(function(character){
+        return character.id === id;
+    })[0]
+
+    if (!character){
+        res
+            .status(404)
+            .send({error: "Character not found"})
+        ;
+    }
+    res.send(character);
+});
+
+app.patch('/characters/:id', function (req, res) {
+    var id = Number(req.params.id);
+    var index = _.findIndex(data, function(character){
+        return character.id === id;
+    })
+
+    if (index > -1) {
+        console.log(req.body)
+        data[index].name = req.body.name || data[index].name
+        data[index].occupation = req.body.occupation || data[index].occupation
+        data[index].weapon = req.body.weapon || data[index].weapon
+        data[index].debt = req.body.debt || data[index].debt
+        res.send(data[index]);
+    } else {
+        res
+            .status(404)
+            .send("Character not found")
+    }
+})
 
 app.post('/characters', function (req, res) {
     var character = {
@@ -63,7 +120,7 @@ app.post('/characters', function (req, res) {
 
     res
         .status(201)
-        .send({ id: character.id })
+        .send(character)
     ;
 });
 
