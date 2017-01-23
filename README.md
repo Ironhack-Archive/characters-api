@@ -1,10 +1,10 @@
 Characters API
 ==============
 
-API for Star Wars characters.
+API for movie characters.
 
 
 License
 -------
 
-ISC © [Nizar Khalife Iglesias](https://twitter.com/khalifenizar)
+ISC © [Ironhack](https://twitter.com/ironhack)
