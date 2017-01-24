@@ -59,7 +59,7 @@ function createServer (data) {
       res.send(character);
   });
 
-  app.patch('/characters/:id', function (req, res) {
+  function characterUpdate (req, res) {
       var id = Number(req.params.id);
       var index = _.findIndex(data, function(character){
           return character.id === id;
@@ -77,7 +77,10 @@ function createServer (data) {
               .status(404)
               .send("Character not found")
       }
-  })
+  }
+
+  app.patch('/characters/:id', characterUpdate);
+  app.put('/characters/:id', characterUpdate);
 
   app.post('/characters', function (req, res) {
       var character = {
